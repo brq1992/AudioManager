@@ -77,14 +77,16 @@ namespace OSSC
             {
                 return null;
             }
+
             float fadeInTime = settings.fadeInTime;
             float fadeOutTime = settings.fadeOutTime;
             bool isLooped = settings.isLooped;
             Transform parent = settings.parent;
-            CategoryItem category = null;
             GameObject prefab = null;
             SoundItem item = new SoundItem();
             item.name = settings.name;
+
+            //todo: audio load should be 
             AudioClip clip = Resources.Load(settings.Path) as AudioClip;
             if (!clip)
             {
@@ -200,7 +202,6 @@ namespace OSSC
         {
             PlaySoundSettings settings = new PlaySoundSettings(
                 "Fly Catchers", "Audios/BGM/Fly Catchers", 5f, 5f, false, 1f, null);
-            Core.NotificationEx.getSingleton().Post<PlaySoundSettings>(GlobalConst.PLAYAUDIO, settings);
         }
 
         [ContextMenu("Test Active_Disable_menu Button looped")]
@@ -208,7 +209,6 @@ namespace OSSC
         {
             PlaySoundSettings settings = new PlaySoundSettings(
                 "Fly Catchers", "Audios/BGM/Fly Catchers", 5f, 0f, false, 1f, null, false);
-            Core.NotificationEx.getSingleton().Post<PlaySoundSettings>(GlobalConst.PLAYAUDIO, settings);
         }
 
         [ContextMenu("Test Test Active_Disable_menu Button looped plays 2 times")]
@@ -229,19 +229,6 @@ namespace OSSC
             _cueManager = new CueManager(_initialCueManagerSize);
             audioDictionary = new Dictionary<string, ISoundCue>();
         }
-
-
-        void Start()
-        {
-            Core.NotificationEx.getSingleton().AddObserver<PlaySoundSettings>(GlobalConst.PLAYAUDIO, PlayAudio);
-        }
-
-        void OnDestroy()
-        {
-            Core.NotificationEx.getSingleton().RemoveObserver<PlaySoundSettings>(GlobalConst.PLAYAUDIO, PlayAudio);
-        }
-
-
         #endregion
     }
 
