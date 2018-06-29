@@ -98,16 +98,6 @@ namespace OSSC
 		}
 
 	    /// <summary>
-	    /// Check ISoundCue
-	    /// </summary>
-        public int ID
-		{
-			get {
-                return _soundCue == null ? -999 : _soundCue.ID;
-            }
-		}
-
-	    /// <summary>
 	    /// Check ISoundCue.
 	    /// </summary>
 		public void Play(SoundCueData data)

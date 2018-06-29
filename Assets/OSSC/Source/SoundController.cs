@@ -83,9 +83,6 @@ namespace OSSC
             bool isLooped = settings.isLooped;
             Transform parent = settings.parent;
             GameObject prefab = null;
-            SoundItem item = new SoundItem();
-            item.name = settings.name;
-
             //todo: audio load should be 
             AudioClip clip = Resources.Load(settings.Path) as AudioClip;
             if (!clip)
@@ -93,13 +90,18 @@ namespace OSSC
                 Debug.LogError("Can't find clip! " + settings.Path);
                 return null;
             }
-            item.clips = new[]{clip};
-            item.isRandomPitch = false;
-            item.volume = 1;
-            item.isRandomVolume = false;
+
+            SoundItem item = new SoundItem
+            {
+                name = settings.name,
+                clips = clip,
+                isRandomPitch = false,
+                volume = 1,
+                isRandomVolume = false
+            };
+
+
             List<SoundItem> items = new List<SoundItem> {item};
-            List<float> catVolumes = new List<float> {settings.Volumn};
-            List<CategoryItem> categories = new List<CategoryItem>();
 
             //todo? prefab choose
             prefab = _defaultPrefab;
@@ -113,8 +115,6 @@ namespace OSSC
             SoundCueData data;
             data.audioPrefab = prefab;
             data.sounds = items.ToArray();
-            data.categoryVolumes = catVolumes.ToArray();
-            data.categoriesForSounds = categories.ToArray();
             data.fadeInTime = fadeInTime;
             data.fadeOutTime = fadeOutTime;
             data.isFadeIn = data.fadeInTime >= 0.1f;

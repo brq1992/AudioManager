@@ -13,17 +13,13 @@ namespace OSSC.Model
         /// </summary>
         public string name;
         /// <summary>
-        /// Tag ID associated with SoundItem
-        /// </summary>
-        public int tagID = -1;
-        /// <summary>
         /// Mixer group associated with this SoundItem.
         /// </summary>
         public UnityEngine.Audio.AudioMixerGroup mixer;
         /// <summary>
         /// List of Audioclips
         /// </summary>
-        public AudioClip[] clips;
+        public AudioClip clips;
         /// <summary>
         /// Is SoundItem using Random Pitch?
         /// </summary>

@@ -46,29 +46,11 @@ namespace OSSC
         }
 
         /// <summary>
-        /// SoundCue's unique ID given by the manager
-        /// </summary>
-        /// <returns></returns>
-        public int ID
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
         /// Default Constructor
         /// </summary>
-        public SoundCue()
+        /// <param name="count"></param>
+        public SoundCue(int count)
         {
-        }
-
-        /// <summary>
-        /// Custom Constructor
-        /// </summary>
-        /// <param name="id">Sets the ID of the SoundCue.</param>
-        public SoundCue(int id)
-        {
-            ID = id;
         }
 
         /// <summary>
@@ -182,58 +164,25 @@ namespace OSSC
         /// <returns>True - can play, False - Cannot</returns>
         private bool TryPlayNext()
         {
-            PlayCurrentItem();
-            return true;
-        }
-
-        /// <summary>
-        /// Plays the Current SoundItem.
-        /// </summary>
-        private void PlayCurrentItem()
-        {
             SoundItem item = _data.sounds[0];
-
             float itemVolume = item.isRandomVolume
                 ? item.volumeRange.GetRandomRange()
                 : item.volume;
-            float realVolume = itemVolume * _data.categoryVolumes[0];
 
             float realPitch = item.isRandomPitch
                 ? item.pitchRange.GetRandomRange()
                 : 1f;
 
-            if (0 == _data.sounds.Length - 1)
-            {
-                AudioObject.Setup(
-                    item.name,
-                    GetRandomClip(item.clips),
-                    realVolume,
-                    _data.fadeInTime,
-                    _data.fadeOutTime,
-                    item.mixer,
-                    realPitch);
-            }
-            else
-            {
-                AudioObject.Setup(
-                    item.name,
-                    GetRandomClip(item.clips),
-                    realVolume,
-                    mixer: item.mixer,
-                    pitch: realPitch);
-            }
+            AudioObject.Setup(
+                   item.name,
+                   item.clips,
+                   itemVolume,
+                   _data.fadeInTime,
+                   _data.fadeOutTime,
+                   item.mixer,
+                   realPitch);
             AudioObject.Play();
-        }
-
-        /// <summary>
-        /// Gets a random AudioClip from and array of AudioClips.
-        /// </summary>
-        /// <param name="clips">Array of SoundClips</param>
-        /// <returns>An AudioClip</returns>
-        private AudioClip GetRandomClip(AudioClip[] clips)
-        {
-            int index = UnityEngine.Random.Range(0, clips.Length);
-            return clips[index];
+            return true;
         }
     }
 
@@ -246,14 +195,6 @@ namespace OSSC
         /// sound items that played by the SoundCue.
         /// </summary>
         public SoundItem[] sounds;
-        /// <summary>
-        /// category items that correspond with each of SoundItem in sounds.
-        /// </summary>
-        public CategoryItem[] categoriesForSounds;
-        /// <summary>
-        /// Category sound volumes that correspond with Sound items.
-        /// </summary>
-        public float[] categoryVolumes;
         /// <summary>
         /// Prefab with SoundObject to play Sound items.
         /// </summary>
